@@ -22,19 +22,30 @@ I created this README to help me quickly start new React apps. By putting my not
 ## Table of Contents
 
 1. [Starting the App](#1-starting-the-app)
-2. [Packages](#2-packages)
-3. [Testing on Other Devices](#3-testing-on-other-devices)
-4. [Testing App through VirtualBox](#4-testing-app-through-virtualbox)
+2. [Installing TypeScript Separately](#2-installing-typescript-separately)
+3. [Packages](#3-packages)
+
+   3.1 [Tailwind](#31-tailwind)
+
+4. [Testing on Other Devices](#4-testing-on-other-devices)
+5. [Testing App through VirtualBox](#5-testing-app-through-virtualbox)
 
 ## [1] Starting the App
 
 - Start a terminal instance in the directory you want place your project folder and run the following command to create a React app with Vite.
 
 ```
-npm create vite@latest my-first-react-app -- --template react
+npm create vite@latest my-first-react-app -- --template
 ```
 
-- E.g. If I wanted to create an app with the folder name _super-cool-app_, I would run...
+You will then be given the option to pick a Framework and a Variant.
+
+- Framework: React
+- Variant: JavaScript
+
+You can also pick TypeScript as your Variant. [I will also have instructions later for how to add TypeScript to an existing React project.](#2-installing-typescript)
+
+- NOTE: If I wanted to create an app with the folder name _super-cool-app_, I would run...
 
 ```
 npm create vite@latest super-cool-app -- --template react
@@ -56,7 +67,29 @@ But not really.
 
 There's still a couple more things to do before you're done, excluding actually making your own app.
 
-## [2] Packages
+## [2] Installing TypeScript Separately
+
+If you already created a React project and want to switch from JavaScript to TypeScript, follow these steps.
+
+- Install these packages.
+
+```
+npm install --save typescript @types/node @types/react @types/react-dom @types/jest
+```
+
+- Create a ts.config file in root directory of your project (Next to your package.json file). There are TWO ways to do this.
+
+#### 1 - Create the default ts.config file.
+
+```
+tsc --init
+```
+
+#### 2 - Manually create the ts.config file yourself (Advanced).
+
+Do this if you are already familiar with how you want to configure TypeScript.
+
+## [3] Packages
 
 Here are some helpful packages you can use for your React projects.
 
@@ -103,7 +136,80 @@ npm install --save-dev sass
 npm install react-router-dom
 ```
 
-## [3] Testing on Other Devices
+## [3.1] Tailwind
+
+Tailwind is a CSS framework where you can use predefined class names to style your components. Since Tailwind can usually be used in combination with other packages, I'll be giving Tailwind its own section.
+
+### [Tailwind](https://tailwindcss.com/)
+
+Use Tailwind's installation guide according to the framework you're using.
+[https://tailwindcss.com/docs/installation/framework-guides](https://tailwindcss.com/docs/installation/framework-guides)
+
+- For Vite
+
+  - Install tailwind, postcss, and autoprefixer.
+
+  ```
+  npm install -D tailwindcss postcss autoprefixer
+  ```
+
+  - Make sure your tailwind.config.js file has the following
+
+  ```
+  /** @type {import('tailwindcss').Config} */
+  export default {
+  content: [
+    "./index.html",
+    "./src/**/*.{js,ts,jsx,tsx}",
+  ],
+  theme: {
+    extend: {},
+  },
+  plugins: [],
+  }
+  ```
+
+  - In your root directory, have a css file and add the Tailwind directives. Make sure to import the index.css file into your main.js file. (Or .jsx/.ts/.tsx)
+
+  ```
+  /* index.css */
+  @tailwind base;
+  @tailwind components;
+  @tailwind utilities;
+  ```
+
+  - You can now use Tailwind's classes in your project.
+
+### [clsx](npmjs.com/package/clsx)
+
+- A helpful utility function that constructs className strings conditionally.
+
+```
+// Implementation
+// Strings (variadic)
+clsx('foo', true && 'bar', 'baz');
+//=> 'foo bar baz'
+
+// Objects
+clsx({ foo:true, bar:false, baz:isTrue() });
+//=> 'foo baz'
+```
+
+### [tailwind-merge](https://www.npmjs.com/package/tailwind-merge)
+
+- Utility function to merge Tailwind classes without conflicts.
+
+```
+twMerge('px-2 py-1 bg-red hover:bg-dark-red', 'p-3 bg-[#B91C1C]')
+// → 'hover:bg-dark-red p-3 bg-[#B91C1C]'
+```
+
+### [class-variance-authority](npmjs.com/package/class-variance-authority)
+
+- Allows you to create and organize variants of your components.
+  [Look at the cva documentation for examples.](https://cva.style/docs/getting-started/variants)
+
+## [4] Testing on Other Devices
 
 Do you use multiple computers while working and want to view your app and your code at the same time?
 
@@ -151,7 +257,7 @@ npm run host
 
 - You can add --host to the preview script to test the production version of your app on other devices.
 
-## [4] Testing App through VirtualBox
+## [5] Testing App through VirtualBox
 
 **This step is optional and for those only in my unique situation.**
 
